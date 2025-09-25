@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { GifService } from 'src/app/gifs/services/gifs.service';
 
 interface MenuOption {
   label: string;
@@ -28,4 +29,21 @@ export class SideMenuOptionsComponent {
       route: '/dashboard/search',
     },
   ];
+
+  gifService = inject(GifService);
+  // historyOptions = computed<MenuOption[]>(() => {
+  //   let history: MenuOption[] = [];
+  //   this.gifService.searchHistoryKeys().forEach((element) => {
+  //     history = [
+  //       ...history,
+  //       {
+  //         icon: '',
+  //         label: element,
+  //         sublabel: '',
+  //         route: '',
+  //       },
+  //     ];
+  //   });
+  //   return history;
+  // });
 }
