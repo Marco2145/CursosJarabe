@@ -13,7 +13,7 @@ export default class SearchPageComponent {
   gifs = signal<Gif[]>([]);
 
   onSearch(query: string) {
-    this.gifService.SearchGifs(query, '0').subscribe((resp) => {
+    this.gifService.searchGifs(query, '0').subscribe((resp) => {
       this.gifs.set(resp);
     });
   }
