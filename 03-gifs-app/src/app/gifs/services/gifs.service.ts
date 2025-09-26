@@ -25,6 +25,17 @@ export class GifService {
   tredingGifs = signal<Gif[]>([]);
   isTrendingGifsLoading = signal(true);
 
+  // [[gif,gif,gif],[gif,gif,gif],[gif,gif,gif]]
+  trendingGifGroup = computed<Gif[][]>(() => {
+    const groups = [];
+
+    for (let i = 0; i < this.tredingGifs().length; i += 3) {
+      groups.push(this.tredingGifs().slice(i, i + 3));
+    }
+
+    return groups;
+  });
+
   // Search history
   // searchHistory = signal<Record<string, Gif[]>>({});
   searchHistory = signal<Record<string, Gif[]>>(loadHistoryFromLocalStorage());
@@ -35,7 +46,7 @@ export class GifService {
 
   constructor() {
     this.loadTrendingGifs();
-    console.log('Servicio creado');
+    console.log('Servicio creado - se cargaron trending gifs');
   }
 
   loadTrendingGifs() {
