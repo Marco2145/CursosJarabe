@@ -8,7 +8,9 @@ import type { Gif } from '../interfaces/gif.interface';
 import { GifMapper } from '../mapper/gif.mapper';
 
 // Llave del local storage para el historial
-const GIFS_HISTORY_LOCAL_STORAGE_KEY = 'gifsHistory';
+const GIFS_HISTORY_LOCAL_STORAGE_KEY: string = 'gifsHistory';
+// Constante de gifs cargados por petición
+const GIFS_LIMIT_PER_CALL: number = 24;
 
 const loadHistoryFromLocalStorage = (): Record<string, Gif[]> => {
   const gifs = localStorage.getItem(GIFS_HISTORY_LOCAL_STORAGE_KEY);
@@ -23,7 +25,8 @@ export class GifService {
 
   // Trending gifs signals
   tredingGifs = signal<Gif[]>([]);
-  isTrendingGifsLoading = signal(true);
+  isTrendingGifsLoading = signal(false);
+  private trendingPage = signal(0);
 
   // [[gif,gif,gif],[gif,gif,gif],[gif,gif,gif]]
   trendingGifGroup = computed<Gif[][]>(() => {
@@ -45,18 +48,30 @@ export class GifService {
   });
 
   constructor() {
-    this.loadTrendingGifs();
+    this.loadNextTrendingGifsPage();
     console.log('Servicio creado - se cargaron trending gifs');
   }
 
-  loadTrendingGifs() {
+  loadNextTrendingGifsPage() {
+    if (this.isTrendingGifsLoading()) return;
+
+    this.isTrendingGifsLoading.set(true);
+
     this.http
       .get<GiphyResponse>(`${environment.giphyURL}/gifs/trending`, {
-        params: { api_key: environment.giphyApiKey, limit: 20 },
+        params: {
+          api_key: environment.giphyApiKey,
+          limit: GIFS_LIMIT_PER_CALL,
+          offset: this.trendingPage() * GIFS_LIMIT_PER_CALL,
+        },
       })
       .subscribe((resp) => {
         const gifs = GifMapper.mapGiphyItemsToGifArray(resp.data);
-        this.tredingGifs.set(gifs);
+        // this.tredingGifs.set(gifs);
+        this.tredingGifs.update((current) => {
+          return [...current, ...gifs];
+        });
+        this.trendingPage.update((current) => current + 1);
         this.isTrendingGifsLoading.set(false);
       });
   }
@@ -81,7 +96,7 @@ export class GifService {
     );
   }
 
-  getHistoryGifs(query: string): Gif[] {
+  getHistoryGifsByKey(query: string): Gif[] {
     return this.searchHistory()[query] ?? [];
   }
 }
