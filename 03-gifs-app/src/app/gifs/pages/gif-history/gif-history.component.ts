@@ -19,6 +19,6 @@ export default class GifHistoryComponent {
   // })
 
   gifsByKey = computed(() => {
-    return this.gifService.getHistoryGifs(this.query());
+    return this.gifService.getHistoryGifsByKey(this.query());
   });
 }
