@@ -17,13 +17,22 @@
         <td>{{ $index + 1 }}</td>
         <td>{{ country.flag }}</td>
         <td>
-          <img [src]="country.flags.svg" [alt]="country.name.common" class="w-10" />
+          <img [src]="country.flagSvg" [alt]="country.name" class="w-10" />
         </td>
-        <td>{{ country.name.common }}</td>
+        <td>{{ country.name }}</td>
         <td>{{ country.capital }}</td>
-        <td>{{ country.population }}</td>
         <td>
-          <a href="" class="link-primary cursor-pointer">Mas información</a>
+          <span class="badge badge-secondary">
+            {{ country.population | number }}
+          </span>
+        </td>
+        <td>
+          <a
+            [routerLink]="['/country/by', country.cca2]"
+            href=""
+            class="link-primary cursor-pointer"
+            >Mas información</a
+          >
         </td>
       </tr>
       }
