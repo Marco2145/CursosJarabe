@@ -1,7 +1,7 @@
 import { Component, inject, resource, signal } from '@angular/core';
 import { CountrySearchInputComponent } from '../../components/country-search-input/country-search-input.component';
 import { CountryListComponent } from '../../components/country-list/country-list.component';
-import { firstValueFrom, of } from 'rxjs';
+import { catchError, delay, firstValueFrom, of } from 'rxjs';
 import { CountryService } from '../../services/country.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 
@@ -29,7 +29,13 @@ export class ByCountryPageComponent {
     stream: ({ params }) => {
       if (!params.query) return of([]);
 
-      return this.countryService.searchByCountry(params.query);
+      delay(500);
+      return this.countryService.searchByCountry(params.query).pipe(
+        catchError((error) => {
+          console.error(error);
+          return of([]);
+        })
+      );
     },
   });
 }
