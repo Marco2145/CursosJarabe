@@ -2,7 +2,7 @@ import { Component, inject, resource, signal } from '@angular/core';
 import { CountryListComponent } from '../../components/country-list/country-list.component';
 import { CountrySearchInputComponent } from '../../components/country-search-input/country-search-input.component';
 import { CountryService } from '../../services/country.service';
-import { firstValueFrom, of } from 'rxjs';
+import { catchError, delay, firstValueFrom, of } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -30,7 +30,14 @@ export class ByCapitalPageComponent {
     stream: ({ params }) => {
       if (!params.query) return of([]);
 
-      return this.countryService.searchByCapital(params.query);
+      delay(500);
+      return this.countryService.searchByCountry(params.query).pipe(
+        // *Nota: No funciona el mostrar error en la tabla, countryService.error() no da nada
+        catchError((error) => {
+          console.error(error);
+          return of([]);
+        })
+      );
     },
   });
 
