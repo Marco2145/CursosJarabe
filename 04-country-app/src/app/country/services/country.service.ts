@@ -20,7 +20,7 @@ export class CountryService {
       map(CountryMapper.mapRestCountryArrayToCountryArray),
       catchError((error) => {
         // console.log('Error fetching', error);
-        return throwError(() => new Error(`${query} not found`));
+        return throwError(() => new Error(`${query} by Capital not found`));
       })
     );
   }
@@ -32,7 +32,18 @@ export class CountryService {
       map(CountryMapper.mapRestCountryArrayToCountryArray),
       catchError((error) => {
         // console.log('Error fetching', error);
-        return throwError(() => new Error(`${query} not found`));
+        return throwError(() => new Error(`${query} by Country not found`));
+      })
+    );
+  }
+
+  searchByAlphaCode(code: string): Observable<Country | undefined> {
+    return this.http.get<RESTCountry[]>(`${API_URL}/alpha/${code}`).pipe(
+      map(CountryMapper.mapRestCountryArrayToCountryArray),
+      map((countries) => countries.at(0)),
+      catchError((error) => {
+        // console.log('Error fetching', error);
+        return throwError(() => new Error(`${code} by Alpha Code not found`));
       })
     );
   }
