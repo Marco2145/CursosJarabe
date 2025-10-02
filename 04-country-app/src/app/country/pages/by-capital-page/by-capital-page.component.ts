@@ -30,8 +30,7 @@ export class ByCapitalPageComponent {
     stream: ({ params }) => {
       if (!params.query) return of([]);
 
-      delay(500);
-      return this.countryService.searchByCountry(params.query).pipe(
+      return this.countryService.searchByCapital(params.query).pipe(
         // *Nota: No funciona el mostrar error en la tabla, countryService.error() no da nada
         catchError((error) => {
           console.error(error);

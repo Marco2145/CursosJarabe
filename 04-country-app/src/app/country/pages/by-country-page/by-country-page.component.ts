@@ -28,8 +28,6 @@ export class ByCountryPageComponent {
     params: () => ({ query: this.query() }),
     stream: ({ params }) => {
       if (!params.query) return of([]);
-
-      delay(500);
       return this.countryService.searchByCountry(params.query).pipe(
         catchError((error) => {
           console.error(error);
