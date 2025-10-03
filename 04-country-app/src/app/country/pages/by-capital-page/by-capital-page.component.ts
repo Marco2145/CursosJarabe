@@ -4,6 +4,7 @@ import { CountrySearchInputComponent } from '../../components/country-search-inp
 import { CountryService } from '../../services/country.service';
 import { catchError, delay, firstValueFrom, of } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-by-capital-page',
@@ -12,7 +13,12 @@ import { rxResource } from '@angular/core/rxjs-interop';
 })
 export class ByCapitalPageComponent {
   countryService = inject(CountryService);
-  query = signal('');
+
+  activatedRoute = inject(ActivatedRoute);
+  router = inject(Router);
+
+  queryParam: string = this.activatedRoute.snapshot.queryParamMap.get('query') ?? '';
+  query = signal(this.queryParam);
 
   // // Con resource se trabaja con promesas
   // countryResource = resource({
@@ -29,6 +35,14 @@ export class ByCapitalPageComponent {
     params: () => ({ query: this.query() }),
     stream: ({ params }) => {
       if (!params.query) return of([]);
+
+      // Actualizar el URL
+      this.router.navigate(['/country/by-capital'], {
+        queryParams: {
+          query: params.query,
+          // hola: 'mundo',
+        },
+      });
 
       return this.countryService.searchByCapital(params.query).pipe(
         // *Nota: No funciona el mostrar error en la tabla, countryService.error() no da nada
