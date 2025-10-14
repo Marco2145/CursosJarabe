@@ -3,14 +3,29 @@
 
 <div class="row">
   <div class="col">
-    <form autocomplete="off">
+    <form autocomplete="off" [formGroup]="myForm" (ngSubmit)="onSubmit()">
       <!-- Nombre -->
       <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Nombre y apellido</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" placeholder="Nombre del usuario" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Nombre y apellido del usuario"
+            formControlName="name"
+          />
 
-          <span class="form-text text-danger"> Debe de ser en formato de nombre y apellido </span>
+          <!-- <span class="form-text text-danger"> Debe de ser en formato de nombre y apellido </span> -->
+          @if (formUtils.isValidField(myForm, "name")) {
+          <span class="form-text text-danger">
+            {{ formUtils.getFieldError(myForm, 'name') }}
+            @if (myForm.controls["name"].errors!["pattern"]){
+            <!--  -->
+            Debe de ser en formato de nombre y apellido
+            <!--  -->
+            }
+          </span>
+          }
         </div>
       </div>
 
@@ -18,8 +33,24 @@
       <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Email</label>
         <div class="col-sm-9">
-          <input type="email" class="form-control" placeholder="Email del usuario" />
-          <span class="form-text text-danger"> mensaje de error del email </span>
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Email del usuario"
+            formControlName="email"
+          />
+          <!-- <span class="form-text text-danger"> mensaje de error del email </span> -->
+          @if (formUtils.isValidField(myForm, "email")) {
+          <span class="form-text text-danger">
+            {{ formUtils.getFieldError(myForm, 'email') }}
+            <!-- 
+            @if (myForm.controls["email"].errors!["pattern"]){
+              Debe ingresar un correo válido
+            } 
+            -->
+          </span>
+          <!--  -->
+          }
         </div>
       </div>
 
@@ -27,8 +58,23 @@
       <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Username</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" placeholder="Nombre código del usuario" />
-          <span class="form-text text-danger"> El username no puede ser Strider </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Nombre código del usuario"
+            formControlName="username"
+          />
+          <!-- <span class="form-text text-danger"> El username no puede ser Strider </span> -->
+          @if (formUtils.isValidField(myForm, "username")) {
+          <span class="form-text text-danger">
+            {{ formUtils.getFieldError(myForm, 'username') }}
+            @if (myForm.controls["username"].errors!["pattern"]){
+            <!--  -->
+            El username no puede contener espacios
+            <!--  -->
+            }
+          </span>
+          }
         </div>
       </div>
 
@@ -36,11 +82,21 @@
       <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Password</label>
         <div class="col-sm-9">
-          <input type="password" class="form-control" placeholder="Password de su cuenta" />
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Password de su cuenta"
+            formControlName="password"
+          />
 
-          <span class="form-text text-danger">
+          <!-- <span class="form-text text-danger">
             La contraseña debe de ser mayor de 6 caracteres.
+          </span> -->
+          @if (formUtils.isValidField(myForm, "password")) {
+          <span class="form-text text-danger">
+            {{ formUtils.getFieldError(myForm, 'password') }}
           </span>
+          }
         </div>
       </div>
 
@@ -48,14 +104,31 @@
       <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Confirmar</label>
         <div class="col-sm-9">
-          <input type="password" class="form-control" placeholder="Confirmar la contraseña" />
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Confirmar la contraseña"
+            formControlName="password2"
+          />
 
-          <span class="form-text text-danger"> Las contraseñas deben de ser iguales </span>
+          <!-- <span class="form-text text-danger"> Las contraseñas deben de ser iguales </span> -->
+          @if (formUtils.isValidField(myForm, "password2")) {
+          <span class="form-text text-danger">
+            <!-- {{ formUtils.getFieldError(myForm, 'password2') }} -->
+            Las contraseñas deben de ser iguales
+          </span>
+          }
         </div>
       </div>
 
       <div class="row">
         <div class="col">
+          @if (myForm.errors && myForm.controls["password"].touched &&
+          myForm.controls["password2"].touched) {
+
+          <span class="text-danger">Las contraseñas no son iguales</span>
+          }
+
           <button class="btn btn-primary float-end" type="submit">Crear</button>
         </div>
       </div>
@@ -63,23 +136,26 @@
   </div>
 </div>
 
-<h2>Form Valid:</h2>
-<h2>Form Status:</h2>
-<h2>Form Pending:</h2>
+<h2>Form Valid: {{ myForm.valid }}</h2>
+<pre></pre>
+<h2>Form Status: {{ myForm.status }}</h2>
+<h2>Form Pending: {{ myForm.pending }}</h2>
 <h2>Form errors</h2>
-<pre>{{ 'formulario' | json }}</pre>
+<pre>{{ myForm.errors | json }}</pre>
+<h2>Form value</h2>
+<pre>{{ myForm.value | json }}</pre>
 
-<h5>Nombre</h5>
-<pre>{{ 'formulario' | json }}</pre>
+<h5 class="fw-bold">Nombre</h5>
+<pre>{{ myForm.controls['name'].errors | json }}</pre>
 
-<h5>Email</h5>
-<pre>{{ 'formulario' | json }}</pre>
+<h5 class="fw-bold">Email</h5>
+<pre>{{ myForm.controls['email'].errors | json }}</pre>
 
-<h5>Username</h5>
-<pre>{{ 'formulario' | json }}</pre>
+<h5 class="fw-bold">Username</h5>
+<pre>{{ myForm.controls['username'].errors | json }}</pre>
 
-<h5>Password</h5>
-<pre>{{ 'formulario' | json }}</pre>
+<h5 class="fw-bold">Password</h5>
+<pre>{{ myForm.controls['password'].errors | json }}</pre>
 
-<h5>Confirmar</h5>
-<pre>{{ 'formulario' | json }}</pre>
+<h5 class="fw-bold">Confirmar</h5>
+<pre>{{ myForm.controls['password2'].errors | json }}</pre>
