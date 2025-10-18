@@ -11,7 +11,7 @@ import { ProductsResponse } from '@products/interfaces/product.interface';
   templateUrl: './home-page.component.html',
 })
 export class HomePageComponent {
-  productsService = inject(ProductsService);
+  private productsService = inject(ProductsService);
 
   productsResource = rxResource({
     params: () => ({}),
