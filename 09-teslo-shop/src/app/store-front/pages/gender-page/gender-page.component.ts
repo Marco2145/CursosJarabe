@@ -5,15 +5,18 @@ import { map } from 'rxjs';
 
 import { ProductsService } from '@products/services/products.service';
 import { ProductCardComponent } from '@store-front/components/product-card/product-card.component';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { PaginationService } from '@shared/components/pagination/pagination.service';
 
 @Component({
   selector: 'app-gender-page',
-  imports: [ProductCardComponent],
+  imports: [ProductCardComponent, PaginationComponent],
   templateUrl: './gender-page.component.html',
 })
 export class GenderPageComponent {
   private activatedRoute = inject(ActivatedRoute);
   private productsService = inject(ProductsService);
+  protected paginationService = inject(PaginationService);
 
   // ? Esta era la forma que estaba en la documentación de ActivatedRoute, pero en la clase se vió distinto
   // productGender = signal('');
@@ -27,9 +30,12 @@ export class GenderPageComponent {
   productGender = toSignal(this.activatedRoute.params.pipe(map(({ gender }) => gender)));
 
   productsResource = rxResource({
-    params: () => ({ gender: this.productGender() }),
+    params: () => ({
+      gender: this.productGender(),
+      page: this.paginationService.currentPage() - 1,
+    }),
     stream: ({ params }) => {
-      return this.productsService.getProducts({ gender: params.gender });
+      return this.productsService.getProducts({ gender: params.gender, offset: params.page * 9 });
     },
   });
 }
