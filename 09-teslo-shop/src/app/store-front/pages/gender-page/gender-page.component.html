@@ -5,6 +5,11 @@
 </h1>
 <!-- <h2 class="text-xl mb-5">Para todos los gustos</h2> -->
 
+<app-pagination
+  [totalPagesInput]="productsResource.value()?.pages ?? 0"
+  [currentPageInput]="paginationService.currentPage()"
+/>
+
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-3">
   @for (product of productsResource.value()?.products; track $index) {
   <product-card [product]="product" />
@@ -14,3 +19,8 @@
   <p>No hay productos</p>
   }
 </div>
+
+<app-pagination
+  [totalPagesInput]="productsResource.value()?.pages ?? 0"
+  [currentPageInput]="paginationService.currentPage()"
+/>
