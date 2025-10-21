@@ -16,7 +16,7 @@ export class AuthService {
   // Propiedades privadas
   private _authStatus = signal<AuthStatus>('checking');
   private _user = signal<User | null>(null);
-  private _token = signal<string | null>(null);
+  private _token = signal<string | null>(localStorage.getItem(TOKEN_KEYNAME));
 
   private http = inject(HttpClient);
 
@@ -37,11 +37,25 @@ export class AuthService {
   token = computed<string | null>(this._token);
 
   // Métodos
+
   login(email: string, password: string): Observable<boolean> {
     return this.http
       .post<AuthResponse>(`${baseUrl}/auth/login`, {
         email: email,
         password: password,
+      })
+      .pipe(
+        map((response) => this.handleAuthSuccess(response)),
+        catchError((error: any) => this.handleAuthError(error))
+      );
+  }
+
+  register(email: string, password: string, fullName: string): Observable<boolean> {
+    return this.http
+      .post<AuthResponse>(`${baseUrl}/auth/register`, {
+        email: email,
+        password: password,
+        fullName: fullName,
       })
       .pipe(
         map((response) => this.handleAuthSuccess(response)),
@@ -59,9 +73,9 @@ export class AuthService {
 
     return this.http
       .get<AuthResponse>(`${baseUrl}/auth/check-status`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       })
       .pipe(
         map((response) => this.handleAuthSuccess(response)),

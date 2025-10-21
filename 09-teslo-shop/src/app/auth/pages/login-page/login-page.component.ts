@@ -29,7 +29,6 @@ export class LoginPageComponent {
     }
 
     const { email = '', password = '' } = this.loginForm.value;
-    console.log({ email, password });
 
     this.authService.login(email!, password!).subscribe((isAuthenticated) => {
       if (isAuthenticated) {
@@ -48,8 +47,4 @@ export class LoginPageComponent {
       this.hasError.set(false);
     }, 6000);
   }
-
-  // Check authentication
-  // Registro
-  // Logout
 }
