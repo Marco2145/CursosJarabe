@@ -35,6 +35,7 @@ export class AuthService {
 
   user = computed<User | null>(() => this._user());
   token = computed<string | null>(this._token);
+  isAdmin = computed(() => this._user()?.roles.includes('admin') ?? false);
 
   // Métodos
 
@@ -70,6 +71,8 @@ export class AuthService {
       this.logout();
       return of(false);
     }
+
+    // TODO: add cache of user authentication to prevent bombarding the backend
 
     return this.http
       .get<AuthResponse>(`${baseUrl}/auth/check-status`, {
