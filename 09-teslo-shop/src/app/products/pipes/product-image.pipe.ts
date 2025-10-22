@@ -8,7 +8,11 @@ const DEF_URL = './assets/images/no-image.jpg';
   name: 'productImage',
 })
 export class ProductImagePipe implements PipeTransform {
-  transform(value: string | string[]): string {
+  transform(value: string | string[] | null): string {
+    if (value === null) {
+      return DEF_URL;
+    }
+
     if (typeof value === 'string') return this.createUrl(value);
 
     if (value.length > 0) return this.createUrl(value[0]);
