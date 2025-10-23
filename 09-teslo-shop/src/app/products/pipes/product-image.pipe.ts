@@ -13,7 +13,14 @@ export class ProductImagePipe implements PipeTransform {
       return DEF_URL;
     }
 
-    if (typeof value === 'string') return this.createUrl(value);
+    if (typeof value === 'string') {
+      if (value.startsWith('blob:')) {
+        // Si es un blob, no se necesita cambiar
+        return value;
+      } else {
+        return this.createUrl(value);
+      }
+    }
 
     if (value.length > 0) return this.createUrl(value[0]);
 
