@@ -10,6 +10,8 @@ import * as allIcons from 'ionicons/icons';
 })
 export class AppComponent {
   constructor() {
+    // Para que ionicons funcione, debemos importarlos primero
+    // Ya que no sé de antemano cuales necesitamos, los importo todos
     addIcons(allIcons);
   }
 }

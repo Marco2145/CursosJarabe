@@ -32,7 +32,6 @@ interface MyComponent {
     IonToolbar,
     CommonModule,
     FormsModule,
-    IonButton,
     IonRouterLink,
     RouterLink,
     IonList,
@@ -48,9 +47,19 @@ export class InicioPage implements OnInit {
       redirectTo: '/action-sheet',
     },
     {
-      icon: 'logo-google-playstore',
+      icon: 'alert-circle',
       name: 'Alert',
       redirectTo: '/alert',
+    },
+    {
+      icon: 'beaker',
+      name: 'Avatar',
+      redirectTo: '/avatar',
+    },
+    {
+      icon: 'radio-button-on',
+      name: 'Button',
+      redirectTo: '/button',
     },
   ]);
 

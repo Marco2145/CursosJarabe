@@ -1,0 +1,42 @@
+<!-- <app-header titleInput="Avatar"></app-header> -->
+
+<ion-header>
+  <ion-toolbar>
+    <!--  -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" color="primary"></ion-back-button>
+    </ion-buttons>
+    <!--  -->
+    <ion-title>Avatar</ion-title>
+    <!--  -->
+    <ion-buttons slot="end">
+      <ion-avatar>
+        <!-- <img src="/assets/avatar.jpg" /> -->
+        <!-- ion-img es cargado mediante lazy load -->
+        <ion-img [src]="AVATAR_PATH"></ion-img>
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  @for (item of [0,0,0,0,0]; track $index) {
+  <ion-chip color="primary" outline="true">
+    <ion-avatar>
+      <img [src]="AVATAR_PATH" />
+    </ion-avatar>
+    <ion-label>Default</ion-label>
+  </ion-chip>
+  }
+
+  <ion-list>
+    @for (item of [0,0,0,0,0]; track $index) {
+    <ion-item>
+      <ion-avatar slot="start">
+        <img [src]="AVATAR_PATH" />
+      </ion-avatar>
+      <ion-label>ちぃたん★</ion-label>
+    </ion-item>
+    }
+  </ion-list>
+</ion-content>

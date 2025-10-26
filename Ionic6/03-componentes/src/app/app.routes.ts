@@ -24,4 +24,14 @@ export const routes: Routes = [
         (m) => m.ActionSheetPage
       ),
   },
+  {
+    path: 'avatar',
+    loadComponent: () =>
+      import('./pages/avatar/avatar.page').then((m) => m.AvatarPage),
+  },
+  {
+    path: 'button',
+    loadComponent: () =>
+      import('./pages/button/button.page').then((m) => m.ButtonPage),
+  },
 ];
