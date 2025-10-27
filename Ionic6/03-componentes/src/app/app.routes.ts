@@ -33,5 +33,17 @@ export const routes: Routes = [
     path: 'button',
     loadComponent: () =>
       import('./pages/button/button.page').then((m) => m.ButtonPage),
+  },  {
+    path: 'card',
+    loadComponent: () => import('./pages/card/card.page').then( m => m.CardPage)
   },
+  {
+    path: 'check',
+    loadComponent: () => import('./pages/check/check.page').then( m => m.CheckPage)
+  },
+  {
+    path: 'date-time',
+    loadComponent: () => import('./pages/date-time/date-time.page').then( m => m.DateTimePage)
+  },
+
 ];

@@ -61,6 +61,21 @@ export class InicioPage implements OnInit {
       name: 'Button',
       redirectTo: '/button',
     },
+    {
+      icon: 'card',
+      name: 'Cards',
+      redirectTo: '/card',
+    },
+    {
+      icon: 'checkmark-circle',
+      name: 'CheckBox',
+      redirectTo: '/check',
+    },
+    {
+      icon: 'calendar',
+      name: 'DateTime',
+      redirectTo: '/date-time',
+    },
   ]);
 
   constructor() {}
