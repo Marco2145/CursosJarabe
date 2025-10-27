@@ -1,0 +1,24 @@
+<app-header titleInput="Check"></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item>
+      <ion-checkbox labelPlacement="end"> Awesome Label </ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    @for (item of data; track $index) {
+    <ion-item (click)="onClick(item)">
+      <!-- [checked]="item.selected" -->
+      <ion-checkbox [color]="item.name" [(ngModel)]="item.selected">
+        {{item.name}}
+      </ion-checkbox>
+    </ion-item>
+    }
+  </ion-list>
+
+  <ion-button (click)="logData()" expand="block" fill="clear" shape="round">
+    Ver data
+  </ion-button>
+</ion-content>
