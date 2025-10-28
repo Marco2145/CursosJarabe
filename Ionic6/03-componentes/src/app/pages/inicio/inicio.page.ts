@@ -76,6 +76,21 @@ export class InicioPage implements OnInit {
       name: 'DateTime',
       redirectTo: '/date-time',
     },
+    {
+      icon: 'car',
+      name: 'Fab',
+      redirectTo: '/fab',
+    },
+    {
+      icon: 'grid',
+      name: 'Grid',
+      redirectTo: '/grid',
+    },
+    {
+      icon: 'infinite',
+      name: 'Infinite scroll',
+      redirectTo: '/infinite',
+    },
   ]);
 
   constructor() {}

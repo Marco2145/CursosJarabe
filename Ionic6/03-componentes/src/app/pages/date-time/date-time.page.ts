@@ -25,10 +25,7 @@ import { IonDatetimeCustomEvent } from '@ionic/core';
   styleUrls: ['./date-time.page.scss'],
   standalone: true,
   imports: [
-    IonModal,
-    IonDatetimeButton,
     IonDatetime,
-
     IonListHeader,
     IonItem,
     IonList,
@@ -41,6 +38,18 @@ import { IonDatetimeCustomEvent } from '@ionic/core';
 })
 export class DateTimePage {
   birthDate = signal<Date>(new Date());
+
+  customPickerOptions = [
+    {
+      text: 'hola',
+      handler: (event: any) => {
+        console.log(event);
+      },
+    },
+    {
+      text: 'Mundo',
+    },
+  ];
 
   onChange($event: IonDatetimeCustomEvent<DatetimeChangeEventDetail>) {
     console.log($event.detail.value);
