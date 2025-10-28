@@ -1,0 +1,19 @@
+<app-header titleInput="Grid"></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      @for (item of data; track $index) {
+      <ion-col size="12" sizeSm="6" sizeMd="4" sizeLg="3" sizeXl="2">
+        <ion-card>
+          <ion-img src="./assets/avatar.jpg"></ion-img>
+          <ion-card-header>
+            <ion-card-subtitle>Awesome Subtitle</ion-card-subtitle>
+            <ion-card-title>Awesome Title</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+</ion-content>

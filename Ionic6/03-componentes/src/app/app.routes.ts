@@ -45,5 +45,17 @@ export const routes: Routes = [
     path: 'date-time',
     loadComponent: () => import('./pages/date-time/date-time.page').then( m => m.DateTimePage)
   },
+  {
+    path: 'fab',
+    loadComponent: () => import('./pages/fab/fab.page').then( m => m.FabPage)
+  },
+  {
+    path: 'grid',
+    loadComponent: () => import('./pages/grid/grid.page').then( m => m.GridPage)
+  },
+  {
+    path: 'infinite',
+    loadComponent: () => import('./pages/infinite/infinite.page').then( m => m.InfinitePage)
+  },
 
 ];
