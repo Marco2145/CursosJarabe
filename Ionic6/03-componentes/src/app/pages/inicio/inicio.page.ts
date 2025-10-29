@@ -91,6 +91,21 @@ export class InicioPage implements OnInit {
       name: 'Infinite scroll',
       redirectTo: '/infinite',
     },
+    {
+      icon: 'hammer',
+      name: 'Input Forms',
+      redirectTo: '/input',
+    },
+    {
+      icon: 'list',
+      name: 'List - Sliding',
+      redirectTo: '/list',
+    },
+    {
+      icon: 'reorder-three-outline',
+      name: 'List reorder',
+      redirectTo: '/list-reorder',
+    },
   ]);
 
   constructor() {}
