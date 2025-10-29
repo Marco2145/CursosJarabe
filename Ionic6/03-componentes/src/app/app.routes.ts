@@ -57,5 +57,17 @@ export const routes: Routes = [
     path: 'infinite',
     loadComponent: () => import('./pages/infinite/infinite.page').then( m => m.InfinitePage)
   },
+  {
+    path: 'input',
+    loadComponent: () => import('./pages/input/input.page').then( m => m.InputPage)
+  },
+  {
+    path: 'list',
+    loadComponent: () => import('./pages/list/list.page').then( m => m.ListPage)
+  },
+  {
+    path: 'list-reorder',
+    loadComponent: () => import('./pages/list-reorder/list-reorder.page').then( m => m.ListReorderPage)
+  },
 
 ];
