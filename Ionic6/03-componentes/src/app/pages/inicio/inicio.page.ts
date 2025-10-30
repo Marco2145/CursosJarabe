@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -11,14 +11,14 @@ import {
   IonList,
   IonItem,
   IonIcon,
+  IonButtons,
+  IonMenuButton,
+  MenuController,
 } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
-
-interface MyComponent {
-  icon: string;
-  name: string;
-  redirectTo: string;
-}
+import { MyComponent } from 'src/app/interfaces/interfaces';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-inicio',
@@ -26,6 +26,7 @@ interface MyComponent {
   styleUrls: ['./inicio.page.scss'],
   standalone: true,
   imports: [
+    IonButtons,
     IonContent,
     IonHeader,
     IonTitle,
@@ -37,76 +38,14 @@ interface MyComponent {
     IonList,
     IonItem,
     IonIcon,
+    IonMenuButton,
   ],
 })
 export class InicioPage implements OnInit {
-  components = signal<MyComponent[]>([
-    {
-      icon: 'american-football',
-      name: 'Action Sheet',
-      redirectTo: '/action-sheet',
-    },
-    {
-      icon: 'alert-circle',
-      name: 'Alert',
-      redirectTo: '/alert',
-    },
-    {
-      icon: 'beaker',
-      name: 'Avatar',
-      redirectTo: '/avatar',
-    },
-    {
-      icon: 'radio-button-on',
-      name: 'Button',
-      redirectTo: '/button',
-    },
-    {
-      icon: 'card',
-      name: 'Cards',
-      redirectTo: '/card',
-    },
-    {
-      icon: 'checkmark-circle',
-      name: 'CheckBox',
-      redirectTo: '/check',
-    },
-    {
-      icon: 'calendar',
-      name: 'DateTime',
-      redirectTo: '/date-time',
-    },
-    {
-      icon: 'car',
-      name: 'Fab',
-      redirectTo: '/fab',
-    },
-    {
-      icon: 'grid',
-      name: 'Grid',
-      redirectTo: '/grid',
-    },
-    {
-      icon: 'infinite',
-      name: 'Infinite scroll',
-      redirectTo: '/infinite',
-    },
-    {
-      icon: 'hammer',
-      name: 'Input Forms',
-      redirectTo: '/input',
-    },
-    {
-      icon: 'list',
-      name: 'List - Sliding',
-      redirectTo: '/list',
-    },
-    {
-      icon: 'reorder-three-outline',
-      name: 'List reorder',
-      redirectTo: '/list-reorder',
-    },
-  ]);
+  menuController = inject(MenuController);
+  dataService = inject(DataService);
+
+  components = toSignal<MyComponent[]>(this.dataService.getMenuOptions());
 
   constructor() {}
 

@@ -17,7 +17,9 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular(),
+    provideIonicAngular({
+      useSetInputAPI: true, //allow to use signal input in modals
+    }),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(withFetch()),
   ],
