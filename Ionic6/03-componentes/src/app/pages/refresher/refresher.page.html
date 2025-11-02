@@ -1,0 +1,15 @@
+<app-header titleInput="Refresher"></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    @for (item of items; track $index; let i = $index) {
+    <ion-item class="animate__animated animate__fadeIn animate__faster">
+      <ion-label>Awesome Label</ion-label>
+    </ion-item>
+    }
+  </ion-list>
+</ion-content>

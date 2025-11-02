@@ -1,0 +1,25 @@
+<app-header titleInput="Progress - Range"></app-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-progress-bar
+    type="determinate"
+    [value]="percentage()"
+    reversed="false"
+    color="primary"
+  ></ion-progress-bar>
+
+  <ion-list>
+    <ion-item>
+      <ion-range
+        aria-label="Temperature"
+        (ionChange)="rangeChange($event)"
+        min="0"
+        max="100"
+        pin="true"
+      >
+        <ion-icon slot="start" name="snow-outline"></ion-icon>
+        <ion-icon slot="end" name="sunny-outline"></ion-icon>
+      </ion-range>
+    </ion-item>
+  </ion-list>
+</ion-content>

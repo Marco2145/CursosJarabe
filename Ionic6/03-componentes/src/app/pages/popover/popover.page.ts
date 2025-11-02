@@ -42,11 +42,13 @@ export class PopoverPage {
     const popover = await this.popoverController.create({
       component: PopoverInfoComponent,
       event: e,
+      translucent: true,
+      backdropDismiss: false,
     });
 
     await popover.present();
 
-    const { role } = await popover.onDidDismiss();
-    console.log(`Popover dismissed with role: ${role}`);
+    const { role, data } = await popover.onWillDismiss();
+    console.log(`Popover dismissed with role: ${role} and data:`, data);
   }
 }
