@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { IonLabel, IonItem, IonList } from '@ionic/angular/standalone';
+import { Component, inject, OnInit } from '@angular/core';
+import {
+  IonLabel,
+  IonItem,
+  IonList,
+  PopoverController,
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-popover-info',
@@ -8,8 +13,19 @@ import { IonLabel, IonItem, IonList } from '@ionic/angular/standalone';
   standalone: true,
   imports: [IonList, IonItem, IonLabel],
 })
-export class PopoverInfoComponent implements OnInit {
-  constructor() {}
+export class PopoverInfoComponent {
+  popoverCtrl = inject(PopoverController);
 
-  ngOnInit() {}
+  items = Array(6);
+
+  onClick(index: number) {
+    console.log(index);
+
+    this.popoverCtrl.dismiss(
+      {
+        item: index,
+      },
+      'success'
+    );
+  }
 }

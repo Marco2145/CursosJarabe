@@ -16,6 +16,7 @@ import {
   IonToggle,
   IonMenuToggle,
   IonList,
+  IonSplitPane,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import * as allIcons from 'ionicons/icons';
@@ -24,10 +25,15 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { MyComponent } from './interfaces/interfaces';
 import { RouterLink } from '@angular/router';
 
+import { register } from 'swiper/element/bundle';
+
+register();
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   imports: [
+    IonSplitPane,
     IonIcon,
     IonItem,
     IonTitle,

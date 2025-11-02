@@ -78,5 +78,40 @@
     "icon": "phone-portrait",
     "name": "Popover",
     "redirectTo": "/popover"
+  },
+  {
+    "icon": "code-working",
+    "name": "Progress bar",
+    "redirectTo": "/progress"
+  },
+  {
+    "icon": "arrow-down-circle",
+    "name": "Refresher",
+    "redirectTo": "/refresher"
+  },
+  {
+    "icon": "search",
+    "name": "Search",
+    "redirectTo": "/search"
+  },
+  {
+    "icon": "copy",
+    "name": "Segment",
+    "redirectTo": "/segment"
+  },
+  {
+    "icon": "albums",
+    "name": "Slides",
+    "redirectTo": "/slides"
+  },
+  {
+    "icon": "cog",
+    "name": "Tabs",
+    "redirectTo": "/tabs"
+  },
+  {
+    "icon": "pricetag",
+    "name": "Toast",
+    "redirectTo": "/toast"
   }
 ]

@@ -1,0 +1,60 @@
+<!-- <app-header titleInput="Segment"></app-header> -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Segment</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment value="" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="">
+        <ion-label>Todos</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="dc">
+        <ion-label>DC Comics</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="marvel">
+        <ion-label>Marvel Comics</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    @for (hero of superHeroes()?? [] | appFiltro: filterTerm(): "publisher";
+    track $index) {
+    <ion-item class="animate__animated animate__fadeIn animate__faster">
+      <ion-label>
+        <h3>{{hero.superhero}} <small>{{hero.alter_ego}}</small></h3>
+        <p>{{hero.first_appearance}}</p>
+      </ion-label>
+      <ion-label slot="end" class="ion-text-right"
+        >{{hero.publisher}}</ion-label
+      >
+    </ion-item>
+    }@empty {
+    <ion-list>
+      @for (hero of [1,1,1,1,1]; track $index) {
+      <ion-item>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      }
+    </ion-list>
+    }
+  </ion-list>
+</ion-content>

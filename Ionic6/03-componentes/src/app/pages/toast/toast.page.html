@@ -1,0 +1,20 @@
+<app-header titleInput="Toast"></app-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-button
+    expand="block"
+    fill="outline"
+    shape="round"
+    (click)="presentToast()"
+  >
+    Normal Toast
+  </ion-button>
+  <ion-button
+    expand="block"
+    fill="outline"
+    shape="round"
+    (click)="presentToastWithOptions()"
+  >
+    Toast with options
+  </ion-button>
+</ion-content>

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { TabsPage } from './pages/tabs/tabs.page';
 
 export const routes: Routes = [
   {
@@ -92,8 +93,66 @@ export const routes: Routes = [
   },
   {
     path: 'popover',
-    loadComponent: () => import('./pages/popover/popover.page').then( m => m.PopoverPage)
+    loadComponent: () =>
+      import('./pages/popover/popover.page').then((m) => m.PopoverPage),
   },
+  {
+    path: 'progress',
+    loadComponent: () =>
+      import('./pages/progress/progress.page').then((m) => m.ProgressPage),
+  },
+  {
+    path: 'refresher',
+    loadComponent: () =>
+      import('./pages/refresher/refresher.page').then((m) => m.RefresherPage),
+  },
+  {
+    path: 'search',
+    loadComponent: () =>
+      import('./pages/search/search.page').then((m) => m.SearchPage),
+  },
+  {
+    path: 'segment',
+    loadComponent: () =>
+      import('./pages/segment/segment.page').then((m) => m.SegmentPage),
+  },
+  {
+    path: 'slides',
+    loadComponent: () =>
+      import('./pages/slides/slides.page').then((m) => m.SlidesPage),
+  },
+  {
+    path: 'tabs',
+    loadComponent: () =>
+      import('./pages/tabs/tabs.page').then((m) => m.TabsPage),
+    // component: TabsPage,
+    children: [
+      {
+        path: 'account',
+        loadComponent: () =>
+          import('./pages/avatar/avatar.page').then((m) => m.AvatarPage),
+      },
+      {
+        path: 'contact',
+        loadComponent: () =>
+          import('./pages/list/list.page').then((m) => m.ListPage),
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./pages/infinite/infinite.page').then((m) => m.InfinitePage),
+      },
+      {
+        path: '**',
+        redirectTo: 'account',
+      },
+    ],
+  },
+  {
+    path: 'toast',
+    loadComponent: () => import('./pages/toast/toast.page').then( m => m.ToastPage)
+  },
+
   // {
   //   path: 'modal-info',
   //   loadComponent: () => import('./pages/modal-info/modal-info.page').then( m => m.ModalInfoPage)
