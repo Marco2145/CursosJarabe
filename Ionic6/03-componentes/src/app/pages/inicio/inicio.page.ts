@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -11,14 +11,14 @@ import {
   IonList,
   IonItem,
   IonIcon,
+  IonButtons,
+  IonMenuButton,
+  MenuController,
 } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
-
-interface MyComponent {
-  icon: string;
-  name: string;
-  redirectTo: string;
-}
+import { MyComponent } from 'src/app/interfaces/interfaces';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-inicio',
@@ -26,33 +26,26 @@ interface MyComponent {
   styleUrls: ['./inicio.page.scss'],
   standalone: true,
   imports: [
+    IonButtons,
     IonContent,
     IonHeader,
     IonTitle,
     IonToolbar,
     CommonModule,
     FormsModule,
-    IonButton,
     IonRouterLink,
     RouterLink,
     IonList,
     IonItem,
     IonIcon,
+    IonMenuButton,
   ],
 })
 export class InicioPage implements OnInit {
-  components = signal<MyComponent[]>([
-    {
-      icon: 'american-football',
-      name: 'Action Sheet',
-      redirectTo: '/action-sheet',
-    },
-    {
-      icon: 'logo-google-playstore',
-      name: 'Alert',
-      redirectTo: '/alert',
-    },
-  ]);
+  menuController = inject(MenuController);
+  dataService = inject(DataService);
+
+  components = toSignal<MyComponent[]>(this.dataService.getMenuOptions());
 
   constructor() {}
 

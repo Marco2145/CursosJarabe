@@ -1,0 +1,15 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>{{firstName()}} | {{country()}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-button (click)="cancel()" expand="block" fill="outline" shape="round">
+    Cancelar
+  </ion-button>
+
+  <ion-button (click)="confirm()" expand="block" fill="outline" shape="round">
+    Confirmar
+  </ion-button>
+</ion-content>

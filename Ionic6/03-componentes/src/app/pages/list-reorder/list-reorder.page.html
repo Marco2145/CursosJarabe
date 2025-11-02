@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>List reorder</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleEnabled()"> Toggle </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-reorder-group
+      (ionItemReorder)="doReorder($event)"
+      [disabled]="isDisabled()"
+    >
+      @for (personaje of personajes; track personaje; let i = $index) {
+      <ion-item>
+        <ion-label>{{ personaje }} </ion-label>
+        <ion-reorder slot="end"><ion-icon name="pizza"></ion-icon></ion-reorder>
+      </ion-item>
+      }
+    </ion-reorder-group>
+  </ion-list>
+
+  <ion-button (click)="print()" expand="block" fill="clear" shape="round">
+    Click me
+  </ion-button>
+</ion-content>
