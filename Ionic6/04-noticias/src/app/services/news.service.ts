@@ -4,9 +4,10 @@ import { Article, NewsResponse } from '../interfaces/news.interface';
 import { environment } from 'src/environments/environment';
 import { options } from 'ionicons/icons';
 import { catchError, map, Observable, of } from 'rxjs';
+import { ArticlesByCategoryAndPage } from '../interfaces/articlesByCategoryAndPage.interface';
 
 const LOCAL_TEST_URL = './assets/a.json';
-const NEWS_API_URL = 'https://newsapi.org/v2/top-headlines?country=us';
+const NEWS_API_URL = 'https://newsapi.org/v2';
 const API_KEY = environment.apiKey;
 
 @Injectable({
@@ -14,8 +15,19 @@ const API_KEY = environment.apiKey;
 })
 export class NewsService {
   private http = inject(HttpClient);
+  private articlesByCategoryAndPage: ArticlesByCategoryAndPage = {};
 
   //! cambiar a la api normal
+
+  private executeQuery<T>(endpoint: string) {
+    console.log('Petición HTTP realizada');
+    return this.http.get<T>(`${NEWS_API_URL}${endpoint}`, {
+      params: {
+        apiKey: API_KEY,
+        country: 'us',
+      },
+    });
+  }
 
   getTopHeadlines(): Observable<Article[]> {
     return this.http
@@ -34,7 +46,12 @@ export class NewsService {
       );
   }
 
-  getTopHeadlinesByCategory(category: string): Observable<Article[]> {
+  getTopHeadlinesByCategory(
+    category: string,
+    loadMore: boolean = false
+  ): Observable<Article[]> {
+    if (this.articlesByCategoryAndPage) {
+    }
     return this.http
       .get<NewsResponse>(LOCAL_TEST_URL, {
         params: {
@@ -49,5 +66,20 @@ export class NewsService {
           return of([]);
         })
       );
+  }
+
+  private getArticlesByCategory(category: string): Observable<Article[]> {
+    if (!Object.keys(this.articlesByCategoryAndPage).includes(category)) {
+      // No existe
+      // Lo creamos
+      this.articlesByCategoryAndPage[category] = {
+        page: 0,
+        articles: [],
+      };
+    }
+
+    const page = (this.articlesByCategoryAndPage[category].page += 1);
+
+    return this.http<NewsResponse>();
   }
 }
