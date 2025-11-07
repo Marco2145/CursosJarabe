@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Headlines </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-segment
+    [value]="selectedCategory()"
+    (ionChange)="segmentChanged($event)"
+    scrollable
+    [disabled]="disableSegment()"
+  >
+    @for (category of categories; track $index) {
+    <ion-segment-button [value]="category">
+      <ion-label class="ion-text-capitalize">{{category}}</ion-label>
+    </ion-segment-button>
+    }
+  </ion-segment>
+
+  <!-- <p>{{myArticles() | json}}</p> -->
+
+  @if (myArticles() ) {
+  <app-articles [ArticlesInput]="myArticles() ?? []"></app-articles>
+  }
+
+  <ion-infinite-scroll
+    threshold="25%"
+    [disabled]="stopLoadingMore()"
+    position="bottom"
+    (ionInfinite)="loadData($event)"
+  >
+    <ion-infinite-scroll-content> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

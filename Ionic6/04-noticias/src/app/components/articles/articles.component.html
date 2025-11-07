@@ -1,0 +1,12 @@
+<ion-grid fixed>
+  <ion-row>
+    @for (article of myArticles(); track $index; let i = $index) {
+    <ion-col size="12" sizeLg="3" sizeMd="4" sizeSm="6" sizeXs="12">
+      <app-article
+        [articleIndex]="i + 1"
+        [articleInput]="article"
+      ></app-article>
+    </ion-col>
+    }
+  </ion-row>
+</ion-grid>
