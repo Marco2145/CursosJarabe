@@ -67,6 +67,7 @@ export class Tab1Page {
   });
 
   newsService = inject(NewsService);
+
   protected newsResource = rxResource({
     params: () => ({
       category: this.selectedCategory(),

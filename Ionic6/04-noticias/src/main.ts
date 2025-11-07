@@ -9,11 +9,14 @@ import {
   IonicRouteStrategy,
   provideIonicAngular,
 } from '@ionic/angular/standalone';
+import { importProvidersFrom } from '@angular/core';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+
+import { InAppBrowser } from '@capacitor/inappbrowser';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
-import { provideHttpClient, withFetch } from '@angular/common/http';
-import { InAppBrowser } from '@capacitor/inappbrowser';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -21,5 +24,7 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(withFetch()),
+    // Ionic Storage
+    importProvidersFrom(IonicStorageModule.forRoot()),
   ],
 });
