@@ -9,6 +9,7 @@
     [value]="selectedCategory()"
     (ionChange)="segmentChanged($event)"
     scrollable
+    [disabled]="disableSegment()"
   >
     @for (category of categories; track $index) {
     <ion-segment-button [value]="category">
@@ -17,7 +18,18 @@
     }
   </ion-segment>
 
-  @if (myResource.hasValue()) {
-  <app-articles [ArticlesInput]="myResource.value()"></app-articles>
+  <!-- <p>{{myArticles() | json}}</p> -->
+
+  @if (myArticles() ) {
+  <app-articles [ArticlesInput]="myArticles() ?? []"></app-articles>
   }
+
+  <ion-infinite-scroll
+    threshold="25%"
+    [disabled]="stopLoadingMore()"
+    position="bottom"
+    (ionInfinite)="loadData($event)"
+  >
+    <ion-infinite-scroll-content> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

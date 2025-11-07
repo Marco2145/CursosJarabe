@@ -4,5 +4,6 @@ export interface ArticlesByCategoryAndPage {
   [key: string]: {
     page: number;
     articles: Article[];
+    fullyLoaded: boolean;
   };
 }

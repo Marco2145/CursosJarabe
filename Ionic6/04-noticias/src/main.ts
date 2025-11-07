@@ -13,6 +13,7 @@ import {
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { InAppBrowser } from '@capacitor/inappbrowser';
 
 bootstrapApplication(AppComponent, {
   providers: [

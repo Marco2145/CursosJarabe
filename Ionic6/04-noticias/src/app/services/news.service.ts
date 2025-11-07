@@ -63,10 +63,16 @@ export class NewsService {
       this.articlesByCategoryAndPage[category] = {
         page: 0,
         articles: [],
+        fullyLoaded: false,
       };
     }
+    // Si previamente ya determinamos que está fully loaded, regresamos el cache
+    if (this.articlesByCategoryAndPage[category].fullyLoaded)
+      return of(this.articlesByCategoryAndPage[category].articles);
 
+    // Caso contrario, pedimos articulos extras
     const page = this.articlesByCategoryAndPage[category].page + 1;
+    // ? Cambiar de url segun se requiera
     // const url = `${NEWS_API_URL}/top-headlines`;
     const url = `${LOCAL_TEST_URL}`;
 
@@ -81,8 +87,11 @@ export class NewsService {
       })
       .pipe(
         map((response) => {
-          if (response.articles.length === 0)
+          if (response.articles.length === 0) {
+            // Si ya no hubo respuesta, retornamos el caché y levantamos bandera de fullyLoaded
+            this.articlesByCategoryAndPage[category].fullyLoaded = true;
             return this.articlesByCategoryAndPage[category].articles;
+          }
 
           this.articlesByCategoryAndPage[category] = {
             page: page,
@@ -90,6 +99,7 @@ export class NewsService {
               ...this.articlesByCategoryAndPage[category].articles,
               ...response.articles,
             ],
+            fullyLoaded: false,
           };
 
           return this.articlesByCategoryAndPage[category].articles;
