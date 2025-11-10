@@ -21,8 +21,6 @@ export class ScannedRegister {
   private _determineType() {
     const textStart = this.text.substring(0, 4);
 
-    console.log('TYPE', textStart);
-
     switch (textStart) {
       case 'http':
         this.type = 'http';

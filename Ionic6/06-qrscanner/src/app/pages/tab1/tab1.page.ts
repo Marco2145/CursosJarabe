@@ -11,6 +11,8 @@ import {
 } from '@capacitor/barcode-scanner';
 import { Capacitor } from '@capacitor/core';
 import { Toast } from '@capacitor/toast';
+import { DataLocalService } from '../../services/data-local.service';
+import { ScannedRegister } from '../../models/scannedRegister.model';
 
 @Component({
   selector: 'app-tab1',
@@ -19,7 +21,8 @@ import { Toast } from '@capacitor/toast';
   imports: [IonButton, IonContent],
 })
 export class Tab1Page {
-  toastController = inject(ToastController);
+  private toastController = inject(ToastController);
+  protected dataLocalService = inject(DataLocalService);
 
   async showToast(toastMsg: string) {
     if (Capacitor.isNativePlatform()) {
@@ -37,22 +40,9 @@ export class Tab1Page {
     }
   }
 
-  ionViewDidEnter() {
-    console.log('ionViewDidEnter');
-  }
-
-  ionViewDidLeave() {
-    console.log('ionViewDidLeave');
-  }
-
-  ionViewWillEnter() {
-    console.log('ionViewWillEnter');
-    this.scan();
-  }
-
-  ionViewWillLeave() {
-    console.log('ionViewWillLeave');
-  }
+  // ionViewWillEnter() {
+  //   this.scan();
+  // }
 
   async scan() {
     // Check permissions if denied
@@ -72,13 +62,24 @@ export class Tab1Page {
       return;
     }
 
+    // Launch Scanner
     const result: CapacitorBarcodeScannerScanResult | void =
       await CapacitorBarcodeScanner.scanBarcode({
         hint: CapacitorBarcodeScannerTypeHint.ALL,
       }).catch((err) => {
-        console.log(err);
+        console.error(err);
       });
 
-    console.log(result);
+    if (result) {
+      this.dataLocalService.saveRegister(result.format, result.ScanResult);
+      console.log('Scan successful', result);
+    }
+  }
+
+  testRegister() {
+    this.dataLocalService.saveRegister(
+      CapacitorBarcodeScannerTypeHint.QR_CODE,
+      'https://www.google.com'
+    );
   }
 }
