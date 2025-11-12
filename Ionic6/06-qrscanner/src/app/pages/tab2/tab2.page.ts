@@ -37,10 +37,10 @@ export class Tab2Page {
   protected dataLocalService = inject(DataLocalService);
 
   sendMail() {
-    console.log('Sending email...');
+    this.dataLocalService.sendEmail();
   }
 
   openRegister(register: ScannedRegister) {
-    console.log('Opened', register);
+    this.dataLocalService.openScannedRegister(register);
   }
 }

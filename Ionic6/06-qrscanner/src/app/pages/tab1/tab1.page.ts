@@ -24,6 +24,10 @@ export class Tab1Page {
   private toastController = inject(ToastController);
   protected dataLocalService = inject(DataLocalService);
 
+  // ionViewWillEnter() {
+  //   this.scan();
+  // }
+
   async showToast(toastMsg: string) {
     if (Capacitor.isNativePlatform()) {
       await Toast.show({
@@ -40,11 +44,11 @@ export class Tab1Page {
     }
   }
 
-  // ionViewWillEnter() {
-  //   this.scan();
-  // }
-
   async scan() {
+    // // ! delete
+    // this.testRegister();
+    // return;
+
     // Check permissions if denied
     let permission: PermissionState = 'denied';
     await navigator.permissions
@@ -71,15 +75,26 @@ export class Tab1Page {
       });
 
     if (result) {
-      this.dataLocalService.saveRegister(result.format, result.ScanResult);
+      this.dataLocalService.saveRegister(
+        result!.format,
+        result!.ScanResult,
+        true
+      );
       console.log('Scan successful', result);
     }
   }
 
+  // ! for testing
   testRegister() {
+    // this.dataLocalService.saveRegister(
+    //   CapacitorBarcodeScannerTypeHint.QR_CODE,
+    //   'https://www.google.com',
+    //   true
+    // );
     this.dataLocalService.saveRegister(
       CapacitorBarcodeScannerTypeHint.QR_CODE,
-      'https://www.google.com'
+      'geo:40.73151796986687,-74.06087294062502',
+      true
     );
   }
 }
