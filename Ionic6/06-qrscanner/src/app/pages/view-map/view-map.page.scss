@@ -1,0 +1,19 @@
+#map {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: #f6f6f4;
+
+  // border: 2px dotted rgb(96 139 168);
+}
+
+.custom-back-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  --icon-font-size: 25px;
+
+  --background: var(--ion-color-primary);
+  color: white;
+
+  --border-radius: 12px;
+}
