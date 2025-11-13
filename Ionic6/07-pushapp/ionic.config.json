@@ -1,0 +1,7 @@
+{
+  "name": "07-pushapp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
