@@ -1,11 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { NotificationService } from './services/notification.service';
+
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   imports: [IonApp, IonRouterOutlet],
 })
-export class AppComponent {
-  constructor() {}
+export class AppComponent implements OnInit {
+  private notificationService = inject(NotificationService);
+  // Para inicializar plugin de Cordova
+  private platform = inject(Platform);
+
+  ngOnInit(): void {
+    this.platform.ready().then(() => {
+      this.notificationService.init();
+    });
+  }
 }
