@@ -24,7 +24,7 @@
 
     <ion-item>
       <ion-input
-        name="body"
+        name="url"
         type="url"
         inputmode="url"
         label="URL notificacion"
@@ -51,4 +51,30 @@
       <ion-button type="submit" slot="end">Enviar</ion-button>
     </ion-item>
   </form>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Latest foreground notification</ion-card-title>
+    </ion-card-header>
+    @if (notificationService.latestForegroundNotification()) {
+    <ion-card-content>
+      {{notificationService.latestForegroundNotification() | json}}
+    </ion-card-content>
+    }@else {
+    <ion-card-content> No data </ion-card-content>
+    }
+  </ion-card>
+  <!--  -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Latest clicked notification</ion-card-title>
+    </ion-card-header>
+    @if (notificationService.latestClickedNotification()) {
+    <ion-card-content>
+      {{notificationService.latestClickedNotification() | json}}
+    </ion-card-content>
+    }@else {
+    <ion-card-content> No data </ion-card-content>
+    }
+  </ion-card>
 </ion-content>

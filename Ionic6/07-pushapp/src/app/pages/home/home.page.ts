@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -14,6 +15,11 @@ import {
   IonDatetime,
   IonButton,
   ToastController,
+  IonCard,
+  IonCardSubtitle,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
 } from '@ionic/angular/standalone';
 import moment from 'moment-timezone';
 import { INotification } from 'src/app/models/notification.model';
@@ -24,6 +30,11 @@ import { NotificationService } from 'src/app/services/notification.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   imports: [
+    IonCardContent,
+    IonCardTitle,
+    IonCardHeader,
+    IonCardSubtitle,
+    IonCard,
     IonButton,
     IonDatetime,
     IonModal,
@@ -37,18 +48,19 @@ import { NotificationService } from 'src/app/services/notification.service';
     IonTitle,
     IonContent,
     FormsModule,
+    JsonPipe,
   ],
 })
 export class HomePage {
   // Información de ejemplo, se puede cambiiar
   public notification: INotification = {
-    title: '',
-    body: '',
+    title: 'test title',
+    body: 'test body',
     date: moment().format('YYYY-MM-DDTHH:mm:ss'),
     url: 'https://google.com.mx',
   };
 
-  private notificationService = inject(NotificationService);
+  protected notificationService = inject(NotificationService);
   private toastController = inject(ToastController);
 
   async presentToast(message: string) {
@@ -62,7 +74,7 @@ export class HomePage {
   }
 
   sendNotification() {
-    console.log(this.notification);
+    console.log('form', this.notification);
     this.notificationService
       .sendNotification(this.notification)
       .then(async (responseStatus: boolean) => {
