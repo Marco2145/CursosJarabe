@@ -96,19 +96,19 @@ userRoutes.post(
 				ok: false,
 				error: "No user exist with the provided ID",
 			});
+		} else {
+			const userToken = Token.getJwtToken({
+				_id: newUserDB?._id,
+				name: newUserDB?.name,
+				email: newUserDB?.email,
+				avatar: newUserDB?.avatar,
+			});
+
+			response.status(200).json({
+				ok: true,
+				token: userToken,
+			});
 		}
-
-		const userToken = Token.getJwtToken({
-			_id: newUserDB?._id,
-			name: newUserDB?.name,
-			email: newUserDB?.email,
-			avatar: newUserDB?.avatar,
-		});
-
-		response.status(200).json({
-			ok: true,
-			token: userToken,
-		});
 	}
 );
 
