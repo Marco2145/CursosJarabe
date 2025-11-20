@@ -1,8 +1,12 @@
 import { Router, type Response } from "express";
+
 import { verifyToken } from "../middlewares/authentication.js";
 import { Post } from "../models/post.model.js";
+import type { IFileUpload } from "../interfaces/file-upload.interface.js";
+import FileSystem from "../classes/file-system.js";
 
 const postRoutes = Router();
+const fileSystem = new FileSystem();
 
 // Get Posts
 postRoutes.get("/", async (request: any, response: Response) => {
@@ -48,5 +52,31 @@ postRoutes.post("/", [verifyToken], (request: any, response: Response) => {
 			});
 	}
 });
+
+// Service for uploading files
+postRoutes.post(
+	"/upload",
+	[verifyToken],
+	(request: any, response: Response) => {
+		if (!request.files) {
+			response.status(400).json({ ok: false, error: "No file attached" });
+			return;
+		}
+
+		const file: IFileUpload = request.files.image;
+
+		// * Safety could be improved by doing additional checks against malicious files that pose as images
+		if (!file || !file.mimetype.includes("image")) {
+			response
+				.status(400)
+				.json({ ok: false, error: "No image file attached" });
+			return;
+		}
+
+		fileSystem.saveTempImg(file, request.user._id);
+
+		response.status(200).json({ ok: true, type: file.mimetype });
+	}
+);
 
 export default postRoutes;
