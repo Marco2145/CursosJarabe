@@ -1,7 +1,9 @@
 import { Server } from "./classes/server.js";
-import userRoutes from "./routes/user.routes.js";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+
+import userRoutes from "./routes/user.routes.js";
+import postRoutes from "./routes/post.routes.js";
 
 const server = new Server();
 
@@ -14,6 +16,7 @@ server.app.use(bodyParser.json());
 // Decirle que esté pendiente del path user, y que cuando alguien haga peticion a user, usar el user route
 // ? Rutas de mi app
 server.app.use("/user", userRoutes);
+server.app.use("/posts", postRoutes);
 
 // ? Conectar DB
 mongoose

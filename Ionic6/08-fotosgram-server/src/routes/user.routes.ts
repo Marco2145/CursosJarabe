@@ -7,6 +7,8 @@ import { verifyToken } from "../middlewares/authentication.js";
 
 const userRoutes = Router();
 
+// TODO: Would be a good idea to separate the logic here to avoid boilerplate
+
 // ? Login
 // ! REMOVE ** FROM ERROR MESSAGES
 userRoutes.post("/login", async (request: Request, response: Response) => {
