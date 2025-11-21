@@ -1,7 +1,11 @@
 import { Server } from "./classes/server.js";
-import userRoutes from "./routes/user.routes.js";
 import mongoose from "mongoose";
+
 import bodyParser from "body-parser";
+import fileUpload from "express-fileupload";
+
+import userRoutes from "./routes/user.routes.js";
+import postRoutes from "./routes/post.routes.js";
 
 const server = new Server();
 
@@ -10,10 +14,14 @@ const server = new Server();
 server.app.use(bodyParser.urlencoded({ extended: true }));
 server.app.use(bodyParser.json());
 
+// ? fileUpload
+server.app.use(fileUpload());
+
 // Definirle una ruta en particular
 // Decirle que esté pendiente del path user, y que cuando alguien haga peticion a user, usar el user route
 // ? Rutas de mi app
 server.app.use("/user", userRoutes);
+server.app.use("/posts", postRoutes);
 
 // ? Conectar DB
 mongoose
