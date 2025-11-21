@@ -10,14 +10,14 @@ const userRoutes = Router();
 // TODO: Would be a good idea to separate the logic here to avoid boilerplate
 
 // ? Login
-// ! REMOVE ** FROM ERROR MESSAGES
+// ! REMOVE *asteriscs* FROM ERROR MESSAGES when in PROD
 userRoutes.post("/login", async (request: Request, response: Response) => {
 	if (request.body) {
 		const userDB = await User.findOne({ email: request.body.email });
 
 		if (!userDB) {
 			response
-				.status(400)
+				.status(200)
 				.json({ ok: false, error: "incorrect *user* or password" });
 		}
 
@@ -35,12 +35,12 @@ userRoutes.post("/login", async (request: Request, response: Response) => {
 			});
 		} else {
 			response
-				.status(400)
+				.status(200)
 				.json({ ok: false, error: "incorrect user or *password*" });
 		}
 	} else {
 		response
-			.status(401)
+			.status(400)
 			.json({ ok: false, error: "missing form url encoded body" });
 	}
 });
@@ -75,7 +75,7 @@ userRoutes.post("/create", (request: Request, response: Response) => {
 			});
 	} else {
 		response
-			.status(401)
+			.status(400)
 			.json({ ok: false, error: "missing form url encoded body" });
 	}
 });
@@ -94,7 +94,7 @@ userRoutes.post(
 		const newUserDB = await User.findByIdAndUpdate(request.user._id, user);
 
 		if (!newUserDB) {
-			response.status(401).json({
+			response.status(200).json({
 				ok: false,
 				error: "No user exist with the provided ID",
 			});
@@ -113,5 +113,14 @@ userRoutes.post(
 		}
 	}
 );
+
+// ? get user by token
+userRoutes.get("/", [verifyToken], (request: any, response: Response) => {
+	const user = request.user;
+	response.status(200).json({
+		ok: true,
+		user,
+	});
+});
 
 export default userRoutes;

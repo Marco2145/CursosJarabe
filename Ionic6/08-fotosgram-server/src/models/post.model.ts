@@ -8,7 +8,7 @@ const postSchema = new Schema({
 		type: String,
 	},
 	// Un arreglo para permitir más de una imagen
-	img: [
+	imgs: [
 		{
 			type: String,
 		},
@@ -34,7 +34,7 @@ postSchema.pre<IPost>("save", function (next) {
 export interface IPost extends Document {
 	created: Date;
 	message: string;
-	img: string[];
+	imgs: string[];
 	coords: string;
 	user: string;
 }

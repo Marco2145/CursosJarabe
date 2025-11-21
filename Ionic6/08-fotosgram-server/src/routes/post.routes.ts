@@ -8,7 +8,7 @@ import FileSystem from "../classes/file-system.js";
 const postRoutes = Router();
 const fileSystem = new FileSystem();
 
-// Get Posts
+// ? Get Posts
 postRoutes.get("/", async (request: any, response: Response) => {
 	let page = Number(request.query.page) || 1;
 	if (page < 0) page = 1;
@@ -29,12 +29,17 @@ postRoutes.get("/", async (request: any, response: Response) => {
 	});
 });
 
-// Create Post
+// ? Create Post
 postRoutes.post("/", [verifyToken], (request: any, response: Response) => {
 	if (request.body) {
 		const body = request.body;
-
+		// append user (ID) to body
 		body.user = request.user._id;
+
+		const images = fileSystem.mvFromTmpToPostDir(request.user._id);
+
+		// append imgs to body
+		body.imgs = images;
 
 		Post.create(body)
 			.then(async (postDB) => {
@@ -53,11 +58,11 @@ postRoutes.post("/", [verifyToken], (request: any, response: Response) => {
 	}
 });
 
-// Service for uploading files
+// ? Service for uploading files
 postRoutes.post(
 	"/upload",
 	[verifyToken],
-	(request: any, response: Response) => {
+	async (request: any, response: Response) => {
 		if (!request.files) {
 			response.status(400).json({ ok: false, error: "No file attached" });
 			return;
@@ -73,10 +78,29 @@ postRoutes.post(
 			return;
 		}
 
-		fileSystem.saveTempImg(file, request.user._id);
+		// Save the file in the tmp path
+		await fileSystem.saveTempImg(file, request.user._id);
 
 		response.status(200).json({ ok: true, type: file.mimetype });
 	}
 );
+
+// ? Service for getting image URLs
+postRoutes.get("/image/:userId/:img", (request: any, response: Response) => {
+	// Get the params values
+	const userId = request.params.userId;
+	const imgName = request.params.img;
+
+	// Get the img path and if it exists
+	const img = fileSystem.getImgUrl(userId, imgName);
+	// response.status(200).json({ ok: true, imgPath });
+
+	if (img.exists) {
+		response.status(200).sendFile(img.path);
+		return;
+	}
+
+	response.status(404).sendFile(img.path);
+});
 
 export default postRoutes;
