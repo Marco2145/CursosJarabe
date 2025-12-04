@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -6,6 +6,7 @@ import {
   IonContent,
 } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../../explore-container/explore-container.component';
+import { PostsService } from '../../services/posts.service';
 
 @Component({
   selector: 'app-tab1',
@@ -19,6 +20,12 @@ import { ExploreContainerComponent } from '../../explore-container/explore-conta
     ExploreContainerComponent,
   ],
 })
-export class Tab1Page {
-  constructor() {}
+export class Tab1Page implements OnInit {
+  private _postsService = inject(PostsService);
+
+  ngOnInit(): void {
+    this._postsService.getPosts().subscribe((resp) => {
+      console.log(resp);
+    });
+  }
 }

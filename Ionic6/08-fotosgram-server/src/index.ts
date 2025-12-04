@@ -1,6 +1,8 @@
 import { Server } from "./classes/server.js";
 import mongoose from "mongoose";
 
+import cors from "cors";
+
 import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
 
@@ -16,6 +18,9 @@ server.app.use(bodyParser.json());
 
 // ? fileUpload
 server.app.use(fileUpload());
+
+// ? Configurar CORS
+server.app.use(cors({ origin: true, credentials: true }));
 
 // Definirle una ruta en particular
 // Decirle que esté pendiente del path user, y que cuando alguien haga peticion a user, usar el user route
