@@ -1,0 +1,36 @@
+<div class="post">
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="/assets/avatars/{{ post().user?.avatar }}" />
+    </ion-avatar>
+    <ion-label>
+      <h3>{{ post().user?.name }}</h3>
+      <h5>{{ post().user?.email }}</h5>
+    </ion-label>
+  </ion-item>
+
+  <!-- if existen imagenes -->
+  <swiper-container pagination="true">
+    <swiper-slide>
+      <img src="/assets/perro-1.jpg" alt="" />
+    </swiper-slide>
+    <swiper-slide>
+      <img src="/assets/perro-2.jpg" alt="" />
+    </swiper-slide>
+    <swiper-slide>
+      <img src="/assets/perro-3.jpg" alt="" />
+    </swiper-slide>
+  </swiper-container>
+
+  <!-- if coordinates existen -->
+  <!-- mapa -->
+
+  <ion-item lines="none">
+    <ion-icon slot="start" name="heart-outline"></ion-icon>
+    <ion-icon slot="end" name="bookmark"></ion-icon>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label text-wrap>{{ post().message }}</ion-label>
+  </ion-item>
+</div>
