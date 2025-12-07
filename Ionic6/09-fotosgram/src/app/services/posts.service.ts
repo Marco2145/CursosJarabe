@@ -13,7 +13,9 @@ export class PostsService {
 
   postsPage = 0;
 
-  getPosts() {
+  getPosts(reset: boolean = false) {
+    if (reset) this.postsPage = 0;
+
     this.postsPage++;
     return this._http.get<PostsResponse>(
       `${URL}/posts/?page=${this.postsPage}`

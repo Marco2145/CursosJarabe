@@ -11,14 +11,12 @@
 
   <!-- if existen imagenes -->
   <swiper-container pagination="true">
-    <swiper-slide>
-      <img src="/assets/perro-1.jpg" alt="" />
+    <swiper-slide class="image-slide" [style]="img1 | domSanitizer">
+      <!-- <img src="/assets/perro-1.jpg" alt="" /> -->
     </swiper-slide>
-    <swiper-slide>
-      <img src="/assets/perro-2.jpg" alt="" />
+    <swiper-slide class="image-slide" [style]="img2 | domSanitizer">
     </swiper-slide>
-    <swiper-slide>
-      <img src="/assets/perro-3.jpg" alt="" />
+    <swiper-slide class="image-slide" [style]="img3 | domSanitizer">
     </swiper-slide>
   </swiper-container>
 
