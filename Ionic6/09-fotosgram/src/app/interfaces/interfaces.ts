@@ -1,3 +1,4 @@
+// POSTS RESPONSE
 export interface PostsResponse {
   ok: boolean;
   page: number;
@@ -18,4 +19,19 @@ export interface User {
   name?: string;
   avatar?: string;
   email?: string;
+  password?: string;
+}
+
+// LOGIN RESPONSE
+export interface UserManageResponse {
+  ok: boolean;
+  token?: string;
+  error?: string;
+}
+
+// TOKEN VALIDATION RESPONSE
+export interface GetUserResponse {
+  ok: boolean;
+  user?: User;
+  error?: string;
 }

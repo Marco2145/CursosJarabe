@@ -2,6 +2,7 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
+  inject,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -14,9 +15,17 @@ import {
   IonGrid,
   IonItem,
   IonRow,
+  IonInput,
+  NavController,
 } from '@ionic/angular/standalone';
-import Swiper from 'swiper';
+
 import { SwiperContainer } from 'swiper/element';
+import Swiper from 'swiper';
+
+import { UserService } from '../../services/user.service';
+import { UiService } from '../../services/ui.service';
+import { User } from 'src/app/interfaces/interfaces';
+import { AvatarSelectorComponent } from 'src/app/components/avatar-selector/avatar-selector.component';
 
 @Component({
   selector: 'app-login',
@@ -33,60 +42,63 @@ import { SwiperContainer } from 'swiper/element';
     IonToolbar,
     CommonModule,
     FormsModule,
+    IonInput,
+    AvatarSelectorComponent,
   ],
 })
 export class LoginPage implements OnInit {
   // https://stackoverflow.com/questions/77363731/ionic-7-swiper-11-how-to-set-the-parameter-in-typescript
   @ViewChild('mainSlide') swiperRef!: ElementRef<SwiperContainer>;
 
-  avatars = [
-    {
-      img: 'av-1.png',
-      seleccionado: true,
-    },
-    {
-      img: 'av-2.png',
-      seleccionado: false,
-    },
-    {
-      img: 'av-3.png',
-      seleccionado: false,
-    },
-    {
-      img: 'av-4.png',
-      seleccionado: false,
-    },
-    {
-      img: 'av-5.png',
-      seleccionado: false,
-    },
-    {
-      img: 'av-6.png',
-      seleccionado: false,
-    },
-    {
-      img: 'av-7.png',
-      seleccionado: false,
-    },
-    {
-      img: 'av-8.png',
-      seleccionado: false,
-    },
-  ];
+  navController = inject(NavController);
+  userService = inject(UserService);
+  uiService = inject(UiService);
 
-  // Form
-  selectAvatar(avatar: { img: string; seleccionado: boolean }) {
-    this.avatars.forEach((avatar) => (avatar.seleccionado = false));
+  // Form Elements
+  loginUser = {
+    email: 'layla@gmail.com',
+    password: '123456',
+  };
 
-    avatar.seleccionado = true;
+  registerUser: User = {
+    name: 'Test X',
+    email: 'testX@test.com',
+    password: '123456',
+    avatar: 'av-1.png',
+  };
+
+  // Form Methods
+  async login(loginForm: NgForm) {
+    if (loginForm.invalid) return;
+
+    const valid = await this.userService.login(
+      this.loginUser.email,
+      this.loginUser.password
+    );
+
+    if (valid) {
+      // Navegar a pagina principal
+      this.navController.navigateRoot('main/tabs/tab1', { animated: true });
+    } else {
+      // Mostrar error de inicio de sesión
+      this.uiService.presentInfoAlert('Credenciales Incorrectas');
+    }
+
+    console.log(loginForm.value);
   }
 
-  login(loginForm: NgForm) {
-    console.log(loginForm.valid);
-  }
+  async register(registerForm: NgForm) {
+    if (registerForm.invalid) return;
 
-  register(registerForm: NgForm) {
-    console.log(registerForm.valid);
+    const valid = await this.userService.register(this.registerUser);
+
+    if (valid) {
+      // Navegar a pagina principal
+      this.navController.navigateRoot('main/tabs/tab1', { animated: true });
+    } else {
+      // Mostrar error de inicio de sesión
+      this.uiService.presentInfoAlert('El correo electrónico ya está en uso');
+    }
   }
 
   // Buttons

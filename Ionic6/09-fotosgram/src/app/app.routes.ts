@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
+import { userGuard } from './guards/user.guard';
 
 export const routes: Routes = [
   {
     path: 'main',
+    canActivate: [userGuard],
     loadChildren: () =>
       import('./pages/tabs/tabs.routes').then((m) => m.routes),
   },

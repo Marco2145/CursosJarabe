@@ -13,6 +13,6 @@ export class PostsComponent implements OnInit {
   posts = input.required<PostsDB[]>();
 
   ngOnInit() {
-    console.log(this.posts());
+    // console.log(this.posts());
   }
 }

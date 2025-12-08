@@ -20,16 +20,22 @@
             <ion-col>
               <ion-list>
                 <ion-item>
-                  <ion-label>Email</ion-label>
-                  <ion-input name="email" type="email" required></ion-input>
+                  <ion-input
+                    name="email"
+                    type="email"
+                    label="Email: "
+                    required
+                    [(ngModel)]="loginUser.email"
+                  ></ion-input>
                 </ion-item>
 
                 <ion-item>
-                  <ion-label>Password</ion-label>
                   <ion-input
                     name="password"
                     type="password"
+                    label="Password: "
                     required
+                    [(ngModel)]="loginUser.password"
                   ></ion-input>
                 </ion-item>
               </ion-list>
@@ -55,46 +61,40 @@
           </ion-col>
         </ion-row>
 
-        <ion-row>
-          <ion-col>
-            <swiper-container
-              touchMoveStopPropagation="true"
-              nested="true"
-              [slidesPerView]="3.5"
-            >
-              @for (avatar of avatars; track $index) {
-              <swiper-slide>
-                <ion-img
-                  class="pick-avatar"
-                  src="/assets/avatars/{{avatar.img}}"
-                  [ngClass]="{'pick-avatar-seleccionado': avatar.seleccionado}"
-                  (click)="selectAvatar( avatar )"
-                ></ion-img>
-              </swiper-slide>
-              }
-            </swiper-container>
-          </ion-col>
-        </ion-row>
+        <app-avatar-selector
+          (avatarSelected)="registerUser.avatar=$event"
+        ></app-avatar-selector>
 
         <form (ngSubmit)="register(registerForm)" #registerForm="ngForm">
           <ion-row>
             <ion-col>
               <ion-list>
                 <ion-item>
-                  <ion-label>Email</ion-label>
-                  <ion-input name="email" type="email" required></ion-input>
+                  <ion-input
+                    name="email"
+                    type="email"
+                    label="Email: "
+                    [(ngModel)]="registerUser.email"
+                    required
+                  ></ion-input>
                 </ion-item>
 
                 <ion-item>
-                  <ion-label>Nombre</ion-label>
-                  <ion-input name="nombre" type="text" required></ion-input>
+                  <ion-input
+                    name="nombre"
+                    type="text"
+                    label="Nombre: "
+                    [(ngModel)]="registerUser.name"
+                    required
+                  ></ion-input>
                 </ion-item>
 
                 <ion-item>
-                  <ion-label>Password</ion-label>
                   <ion-input
                     name="password"
                     type="password"
+                    label="Password: "
+                    [(ngModel)]="registerUser.password"
                     required
                   ></ion-input>
                 </ion-item>
