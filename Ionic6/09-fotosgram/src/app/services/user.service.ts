@@ -23,10 +23,13 @@ export class UserService {
   private _user: User | null = null;
 
   constructor(private storage: Storage) {
-    this._init();
+    // ? Se movió al app initializer
+    // this.init();
   }
 
-  private async _init() {
+  async init() {
+    console.log('storage initialized');
+
     // Should only be created once
     if (this._storage) {
       return;
@@ -40,7 +43,7 @@ export class UserService {
   }
 
   private async _loadStorage() {
-    if (!this._storage) await this._init();
+    if (!this._storage) await this.init();
 
     // Load storage
     try {
@@ -89,7 +92,42 @@ export class UserService {
     });
   }
 
+  updateUser(user: User) {
+    const headers = new HttpHeaders({
+      'x-token': this._token ?? '',
+    });
+
+    return new Promise<boolean>((resolve) => {
+      this._http
+        .post<UserManageResponse>(`${URL}/user/update`, user, { headers })
+        .subscribe(async (resp) => {
+          if (resp.ok) {
+            // console.log({ old: this._token, new: resp.token });
+
+            await this.saveToken(resp.token!);
+            await this.validateToken();
+            resolve(true);
+          } else {
+            this._token = null;
+            this._storage?.clear();
+            resolve(false);
+          }
+        });
+    });
+  }
+
+  getUser() {
+    // Validate session and redirect if necessary
+    if (!this._user?._id) {
+      this.validateToken();
+    }
+
+    return { ...this._user };
+  }
+
   async saveToken(token: string) {
+    // console.log('Saving token');
+
     if (!this._storage) throw new Error('Storage not initialized');
 
     this._token = token;
@@ -97,6 +135,8 @@ export class UserService {
   }
 
   async validateToken(): Promise<boolean> {
+    // console.log('token to validate', this._token);
+
     await this._loadStorage();
 
     const headers = new HttpHeaders({
@@ -111,6 +151,8 @@ export class UserService {
         .subscribe((resp) => {
           if (resp.ok) {
             this._user = resp.user!;
+            // console.log('token decoded as ', resp.user);
+
             resolve(true);
           } else {
             this._user = null;

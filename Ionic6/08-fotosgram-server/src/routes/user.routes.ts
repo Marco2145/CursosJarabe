@@ -91,7 +91,19 @@ userRoutes.post(
 			avatar: request.body.avatar || request.user.avatar,
 		};
 
-		const newUserDB = await User.findByIdAndUpdate(request.user._id, user);
+		// console.log({
+		// 	reqBodyFromForm: request.body,
+		// 	reqUserFromToken: request.user,
+		// });
+
+		// ! Importante cambio, esta función regresaba el valor anterior en newUserDB,
+		// * Se realiza un cambio en opciones para que sea el usuario DESPUES de insertar con Return Document en after
+		// https://mongoosejs.com/docs/api/model.html#Model.findByIdAndUpdate()
+		const newUserDB = await User.findByIdAndUpdate(request.user._id, user, {
+			returnDocument: "after",
+		});
+
+		// console.log({ received: user, created: newUserDB });
 
 		if (!newUserDB) {
 			response.status(200).json({
@@ -110,6 +122,8 @@ userRoutes.post(
 				ok: true,
 				token: userToken,
 			});
+
+			console.log(`new token for ${newUserDB}`, userToken);
 		}
 	}
 );
