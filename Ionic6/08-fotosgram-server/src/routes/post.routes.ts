@@ -63,6 +63,8 @@ postRoutes.post(
 	"/upload",
 	[verifyToken],
 	async (request: any, response: Response) => {
+		console.log("request.files", request.files);
+
 		if (!request.files) {
 			response.status(400).json({ ok: false, error: "No file attached" });
 			return;
@@ -72,6 +74,8 @@ postRoutes.post(
 
 		// * Safety could be improved by doing additional checks against malicious files that pose as images
 		if (!file || !file.mimetype.includes("image")) {
+			console.log("did not include image");
+
 			response
 				.status(400)
 				.json({ ok: false, error: "No image file attached" });

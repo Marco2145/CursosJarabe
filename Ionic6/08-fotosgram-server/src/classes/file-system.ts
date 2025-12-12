@@ -18,7 +18,8 @@ export default class FileSystem {
 		// console.log(path);
 
 		// * Generate filename
-		const filename = this._createUniqueFilename(file.name);
+		const type = file.mimetype.split("/")[1]!;
+		const filename = this._createUniqueFilename(`${file.name}.${type}`);
 		// console.log(file.name);
 		// console.log(filename);
 
