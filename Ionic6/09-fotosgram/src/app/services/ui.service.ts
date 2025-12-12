@@ -17,11 +17,14 @@ export class UiService {
     await alert.present();
   }
 
-  async presentToast(msg: string) {
+  async presentToast(
+    message: string,
+    position: 'top' | 'bottom' | 'middle' | undefined = 'bottom'
+  ) {
     const toast = await this._toastController.create({
-      message: msg,
+      message,
       duration: 1500,
-      position: 'bottom',
+      position,
     });
 
     await toast.present();

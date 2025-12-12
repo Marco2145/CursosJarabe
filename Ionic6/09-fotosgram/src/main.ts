@@ -21,6 +21,12 @@ import {
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { UserService } from './app/services/user.service';
 
+// Some Capacitor plugins, such as Camera or Toast, have web-based UI available when not running natively.
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+// Call the element loader before the bootstrapModule/bootstrapApplication call
+defineCustomElements(window);
+
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

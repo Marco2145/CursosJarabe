@@ -10,18 +10,26 @@
   </ion-item>
 
   <!-- if existen imagenes -->
+  @if (post().imgs && post().imgs!.length > 0) {
+  <!--  -->
   <swiper-container pagination="true">
-    <swiper-slide class="image-slide" [style]="img1 | domSanitizer">
-      <!-- <img src="/assets/perro-1.jpg" alt="" /> -->
+    @for (image of post().imgs; track $index) {
+    <swiper-slide
+      class="image-slide"
+      [style]="image | postImage : post().user!._id! | domSanitizer"
+    >
     </swiper-slide>
-    <swiper-slide class="image-slide" [style]="img2 | domSanitizer">
-    </swiper-slide>
-    <swiper-slide class="image-slide" [style]="img3 | domSanitizer">
-    </swiper-slide>
+    }
   </swiper-container>
+  }
 
-  <!-- if coordinates existen -->
+  <!-- NOTA: La siguiente era la forma normal de poner una imagen sin el dom sanitizer, pero era estática -->
+  <!-- <img src="/assets/perro-1.jpg" alt="" /> -->
+
   <!-- mapa -->
+  @if (post().coords) {
+  <app-map [coords]="post().coords!"></app-map>
+  }
 
   <ion-item lines="none">
     <ion-icon slot="start" name="heart-outline"></ion-icon>

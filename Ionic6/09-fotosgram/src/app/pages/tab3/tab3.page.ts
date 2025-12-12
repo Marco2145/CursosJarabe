@@ -56,7 +56,7 @@ export class Tab3Page implements OnInit {
   }
 
   logout() {
-    throw new Error('Method not implemented.');
+    this.userService.logout();
   }
 
   async updateUser(updateForm: NgForm) {

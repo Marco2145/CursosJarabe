@@ -1,5 +1,5 @@
 // POSTS RESPONSE
-export interface PostsResponse {
+export interface GetPostsResponse {
   ok: boolean;
   page: number;
   postsDB: PostsDB[];
@@ -33,5 +33,13 @@ export interface UserManageResponse {
 export interface GetUserResponse {
   ok: boolean;
   user?: User;
+  error?: string;
+}
+
+// SINGLE POST RESPONSE
+
+export interface PostMyPostResponse {
+  ok: boolean;
+  post?: PostsDB;
   error?: string;
 }

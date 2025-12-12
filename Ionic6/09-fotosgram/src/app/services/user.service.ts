@@ -8,19 +8,29 @@ import {
   User,
   GetUserResponse,
 } from '../interfaces/interfaces';
+import { Router } from '@angular/router';
 
 const URL = environment.url;
 const TOKEN_KEY = 'TOKEN';
+
+//!!! Use only when on android and backend is at localhost
+// ! will make you unable to post, but at least can check some functionalities
+const BYPASS_LOGIN = false;
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private _http = inject(HttpClient);
+  private _router = inject(Router);
   private _storage: Storage | null = null;
 
   private _token: string | null = null;
   private _user: User | null = null;
+
+  get token() {
+    return this._token + '';
+  }
 
   constructor(private storage: Storage) {
     // ? Se movió al app initializer
@@ -54,14 +64,27 @@ export class UserService {
     }
   }
 
+  private _reloadPage() {
+    let currentUrl: string = this._router.url;
+    this._router.navigateByUrl('/').then(() => {
+      this._router.navigate([currentUrl]);
+    });
+  }
+
   login(email: string, password: string): Promise<boolean> {
+    if (BYPASS_LOGIN) {
+      return new Promise((resolve) => {
+        resolve(true);
+      });
+    }
+
     const data = { email, password };
 
     return new Promise<boolean>((resolve) => {
       this._http
         .post<UserManageResponse>(`${URL}/user/login`, data)
         .subscribe((resp) => {
-          console.log(resp);
+          console.log('response', resp);
 
           if (resp.ok) {
             this.saveToken(resp.token!);
@@ -73,6 +96,14 @@ export class UserService {
           }
         });
     });
+  }
+
+  logout() {
+    this._token = null;
+    this._user = null;
+    this.storage.clear();
+    // Redirect
+    this._reloadPage();
   }
 
   register(user: User): Promise<boolean> {
@@ -119,7 +150,7 @@ export class UserService {
   getUser() {
     // Validate session and redirect if necessary
     if (!this._user?._id) {
-      this.validateToken();
+      this._reloadPage();
     }
 
     return { ...this._user };
@@ -135,6 +166,12 @@ export class UserService {
   }
 
   async validateToken(): Promise<boolean> {
+    if (BYPASS_LOGIN) {
+      return new Promise((resolve) => {
+        resolve(true);
+      });
+    }
+
     // console.log('token to validate', this._token);
 
     await this._loadStorage();
@@ -144,7 +181,10 @@ export class UserService {
     });
 
     return new Promise<boolean>((resolve) => {
-      if (!this._token) resolve(false);
+      if (!this._token) {
+        resolve(false);
+        return;
+      }
 
       this._http
         .get<GetUserResponse>(`${URL}/user/`, { headers })

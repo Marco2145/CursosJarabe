@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -13,14 +13,17 @@ import {
   IonRefresherContent,
 } from '@ionic/angular/standalone';
 
-import { PostsService } from '../../services/posts.service';
-import { PostsDB, PostsResponse } from 'src/app/interfaces/interfaces';
-import { PostsComponent } from 'src/app/components/posts/posts.component';
 import {
   IonInfiniteScrollCustomEvent,
   IonRefresherCustomEvent,
   RefresherEventDetail,
 } from '@ionic/core';
+
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+
+import { PostsDB, GetPostsResponse } from 'src/app/interfaces/interfaces';
+import { PostsService } from '../../services/posts.service';
+import { PostsComponent } from 'src/app/components/posts/posts.component';
 
 @Component({
   selector: 'app-tab1',
@@ -31,7 +34,7 @@ import {
     IonRefresher,
     IonInfiniteScrollContent,
     IonInfiniteScroll,
-    IonButton,
+
     IonButtons,
     IonIcon,
     IonHeader,
@@ -46,6 +49,17 @@ export class Tab1Page implements OnInit {
   protected infiniteEnabled = signal<boolean>(true);
 
   posts: PostsDB[] = [];
+
+  constructor() {
+    // Subscribe to most recent (Current)USER post
+    toObservable(this._postsService.mostRecentPost)
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        if (value && this.posts.length > 0) {
+          this.posts.unshift(value);
+        }
+      });
+  }
 
   ngOnInit(): void {
     this.loadMorePosts(true);
