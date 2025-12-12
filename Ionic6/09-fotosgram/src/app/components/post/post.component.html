@@ -1,0 +1,42 @@
+<div class="post">
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="/assets/avatars/{{ post().user?.avatar }}" />
+    </ion-avatar>
+    <ion-label>
+      <h3>{{ post().user?.name }}</h3>
+      <h5>{{ post().user?.email }}</h5>
+    </ion-label>
+  </ion-item>
+
+  <!-- if existen imagenes -->
+  @if (post().imgs && post().imgs!.length > 0) {
+  <!--  -->
+  <swiper-container pagination="true">
+    @for (image of post().imgs; track $index) {
+    <swiper-slide
+      class="image-slide"
+      [style]="image | postImage : post().user!._id! | domSanitizer"
+    >
+    </swiper-slide>
+    }
+  </swiper-container>
+  }
+
+  <!-- NOTA: La siguiente era la forma normal de poner una imagen sin el dom sanitizer, pero era estática -->
+  <!-- <img src="/assets/perro-1.jpg" alt="" /> -->
+
+  <!-- mapa -->
+  @if (post().coords) {
+  <app-map [coords]="post().coords!"></app-map>
+  }
+
+  <ion-item lines="none">
+    <ion-icon slot="start" name="heart-outline"></ion-icon>
+    <ion-icon slot="end" name="bookmark"></ion-icon>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label text-wrap>{{ post().message }}</ion-label>
+  </ion-item>
+</div>

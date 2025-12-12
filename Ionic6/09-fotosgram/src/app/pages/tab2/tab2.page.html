@@ -1,0 +1,64 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-title> Nuevo Post </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="createPost()"
+        color="primary"
+        [disabled]="this.post.message!.trim().length < 1 || this.isLoading()"
+      >
+        <ion-icon slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">Mensaje</ion-label>
+      <ion-textarea [(ngModel)]="post.message"></ion-textarea>
+    </ion-item>
+
+    <ion-list>
+      <ion-item>
+        <ion-label>Posición actual</ion-label>
+        @if (isLoading()) {
+        <ion-spinner></ion-spinner>
+        }
+        <ion-toggle
+          class="ion-padding-start"
+          slot="end"
+          [(ngModel)]="positionEnabled"
+          (ionChange)="getGeo()"
+        ></ion-toggle>
+      </ion-item>
+    </ion-list>
+  </ion-list>
+
+  <ion-row>
+    <ion-col size="6">
+      <ion-button expand="full" shape="round" (click)="onCameraBtn()">
+        <ion-icon slot="start" name="camera"></ion-icon>
+        Cámara
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button expand="full" shape="round" (click)="onGalleryBtn()">
+        <ion-icon slot="start" name="images"></ion-icon>
+        Galería
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    @for (image of tempImagesWeb; track $index) {
+    <ion-col size="3">
+      <ion-card>
+        <img [src]="image" />
+      </ion-card>
+    </ion-col>
+    }
+  </ion-row>
+</ion-content>
